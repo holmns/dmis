@@ -16,13 +16,20 @@ This project automates the DMIS system at Mahidol Wittayanusorn School (MWIT), w
    npm install
    ```
 
-2. Compile the TypeScript code:
+2. Enter your MWIT username and password in the .env file:
+
+   ```bash
+   USERNAME=""
+   PASSWORD=""
+   ```
+
+3. Compile the TypeScript code:
 
    ```bash
    tsc
    ```
 
-3. Run the automation script:
+4. Run the automation script:
    ```bash
    npm run start
    ```

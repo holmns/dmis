@@ -54,12 +54,14 @@ async function dmis() {
     await page.click("#collapse2 > div > ul > li:nth-child(1) > a");
     await page.waitForSelector("#txtSubject");
     await page.type("#txtSubject", reason);
-    // await page.click("#flex1 > tbody > tr:nth-child(5) > td:nth-child(1) > input.btn.btn-sm.btn-info"); // Submit
+    await page.click(
+      "#flex1 > tbody > tr:nth-child(5) > td:nth-child(1) > input.btn.btn-sm.btn-info"
+    ); // Submit
   } else {
     await page.click("#collapse2 > div > ul > li:nth-child(2) > a");
     await page.waitForSelector("#goHomeType");
     await page.click("#goHomeType");
-    // await page.click("#btnSave"); // Submit
+    await page.click("#btnSave"); // Submit
   }
 }
 
