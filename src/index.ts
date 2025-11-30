@@ -1,15 +1,46 @@
 import puppeteer from "puppeteer";
+import readline from "readline";
 require("dotenv").config();
 
 const URL = "http://dmis.mwit.ac.th/stud/login.jsp";
-const goHome = process.argv.includes("-h");
-const reasonArgIndex = process.argv.indexOf("-r");
-const reason =
-  reasonArgIndex !== -1 && process.argv[reasonArgIndex + 1]
-    ? process.argv[reasonArgIndex + 1]
-    : "กินข้าว";
+const DEFAULT_REASON = "กินข้าว";
+
+function askQuestion(
+  rl: readline.Interface,
+  prompt: string
+): Promise<string> {
+  return new Promise((resolve) => rl.question(prompt, resolve));
+}
+
+async function promptForDestination() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const choice = (
+    await askQuestion(rl, "(H)ome, (T)emporary, (R)eason: ")
+  )
+    .trim()
+    .toLowerCase();
+
+  let goHome = false;
+  let reason = DEFAULT_REASON;
+
+  if (choice === "h") {
+    goHome = true;
+  } else if (choice === "r") {
+    const customReason = (await askQuestion(rl, "Enter reason: "))
+      .trim();
+    reason = customReason || DEFAULT_REASON;
+  }
+
+  rl.close();
+  return { goHome, reason };
+}
 
 async function dmis() {
+  const { goHome, reason } = await promptForDestination();
   const browser = await puppeteer.launch({
     headless: false,
     args: [
