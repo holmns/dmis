@@ -15,9 +15,17 @@ async function promptForDestination() {
     output: process.stdout,
   });
 
-  const choice = (await askQuestion(rl, "(H)ome, (T)emporary, (R)eason: "))
-    .trim()
-    .toLowerCase();
+  type Choice = "h" | "t" | "r" | null;
+  let choice: Choice = null;
+  let inputString: string;
+
+  do {
+    inputString = (await askQuestion(rl, "(H)ome, (T)emporary, (R)eason: "))
+      .trim()
+      .toLowerCase();
+  } while (!["h", "t", "r"].includes(inputString));
+
+  choice = inputString as Choice;
 
   let goHome = false;
   let reason = DEFAULT_REASON;
