@@ -5,10 +5,7 @@ require("dotenv").config();
 const URL = "http://dmis.mwit.ac.th/stud/login.jsp";
 const DEFAULT_REASON = "กินข้าว";
 
-function askQuestion(
-  rl: readline.Interface,
-  prompt: string
-): Promise<string> {
+function askQuestion(rl: readline.Interface, prompt: string): Promise<string> {
   return new Promise((resolve) => rl.question(prompt, resolve));
 }
 
@@ -18,9 +15,7 @@ async function promptForDestination() {
     output: process.stdout,
   });
 
-  const choice = (
-    await askQuestion(rl, "(H)ome, (T)emporary, (R)eason: ")
-  )
+  const choice = (await askQuestion(rl, "(H)ome, (T)emporary, (R)eason: "))
     .trim()
     .toLowerCase();
 
@@ -30,8 +25,7 @@ async function promptForDestination() {
   if (choice === "h") {
     goHome = true;
   } else if (choice === "r") {
-    const customReason = (await askQuestion(rl, "Enter reason: "))
-      .trim();
+    const customReason = (await askQuestion(rl, "Enter reason: ")).trim();
     reason = customReason || DEFAULT_REASON;
   }
 
@@ -94,6 +88,10 @@ async function dmis() {
     await page.click("#goHomeType");
     await page.click("#btnSave"); // Submit
   }
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await browser.close();
+  return;
 }
 
 dmis();
